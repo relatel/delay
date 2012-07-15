@@ -1,4 +1,6 @@
-# make sure tuneR is installed (install.package("tuneR"))
+# make sure tuneR is installed
+is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
+if(!is.installed("tuneR")) install.packages("tuneR")
 require(tuneR)
 
 # Get file names from args
