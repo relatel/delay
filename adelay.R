@@ -32,4 +32,4 @@ delay = abs(lagmax/sr*1000)
 
 # cat result
 sink()
-cat(paste(delay, "\n"))
+cat(paste(round(delay), "\n"))
