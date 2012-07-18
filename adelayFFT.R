@@ -24,12 +24,15 @@ sr = origwav@samp.rate
 orig = origwav@left
 delayed = delayedwav@left
 
+# Zero pad
+nlength = max(length(orig), length(delayed))*2
+orig = c(orig, rep(0, nlength-length(orig)))
+delayed = c(delayed, rep(0, nlength-length(delayed)))
+
 # Calculate cross correlation, try for lags up to 1000ms
-ccor = ccf(orig,delayed, plot=FALSE, lag.max=sr)
-cor = ccor$acf[,,1]
-lag = ccor$lag[,,1]
-lagmax = lag[which.max(cor)]
-delay = abs(lagmax/sr*1000)
+ccor = fft(fft(orig)*Conj(fft(delayed)), inverse=TRUE)
+lmax = abs(which.max(Re(ccor)) - length(orig))
+delay = lmax/sr*1000
 
 # cat result
 sink()
