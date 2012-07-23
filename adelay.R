@@ -1,15 +1,20 @@
+# Calculates delay in ms between 2 audio signals, where one typically is a transmitted version of the other, 
+# in which case the result is an estimate of the delay of the transmission channel
+
 # stop chatter
 sink("/dev/null")
 
-# make sure tuneR and tools is installed
+# make sure tuneR and stats is installed
 is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
 if(!is.installed("tuneR")) install.packages("tuneR")
+if(!is.installed("stats")) install.packages("stats")
 require(tuneR, quietly=TRUE)
-
+require(stats, quietly=TRUE)
 
 # Get file names from args
 args = commandArgs(trailingOnly=TRUE)
-if(length(args) != 2) stop("Usage: Rscript adelay.R <filename1.mp3> <filename2.mp3>\n")
+scriptname = substring(commandArgs(trailingOnly=FALSE)[4], 8)
+if(length(args) != 2) stop(paste("Usage: Rscript ", scriptname, " <original.mp3> <delayed.mp3>\n", sep=""))
 oname = args[1]
 dname = args[2]
 
@@ -24,12 +29,15 @@ sr = origwav@samp.rate
 orig = origwav@left
 delayed = delayedwav@left
 
-# Calculate cross correlation, try for lags up to 1000ms
-ccor = ccf(orig,delayed, plot=FALSE, lag.max=sr)
-cor = ccor$acf[,,1]
-lag = ccor$lag[,,1]
-lagmax = lag[which.max(cor)]
-delay = abs(lagmax/sr*1000)
+# Zero pad, at least half. nextn() selects "factor rich" length
+nlength = nextn(max(length(orig), length(delayed))*2)
+orig = c(orig, rep(0, nlength-length(orig)))
+delayed = c(delayed, rep(0, nlength-length(delayed)))
+
+# Calculate cross correlation
+ccor = fft(fft(orig)*Conj(fft(delayed)), inverse=TRUE)
+lmax = abs(which.max(Re(ccor)) - length(orig))
+delay = lmax/sr*1000
 
 # cat result
 sink()
