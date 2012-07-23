@@ -9,7 +9,7 @@ require(tuneR, quietly=TRUE)
 
 # Get file names from args
 args = commandArgs(trailingOnly=TRUE)
-if(length(args) != 2) stop("Usage: Rscript adelay.R <filename1.mp3> <filename2.mp3>\n")
+if(length(args) != 2) stop("Usage: Rscript adelay.R <original.mp3> <delayed.mp3>\n")
 oname = args[1]
 dname = args[2]
 
@@ -25,7 +25,7 @@ orig = origwav@left
 delayed = delayedwav@left
 
 # Zero pad
-nlength = max(length(orig), length(delayed))*2
+nlength = nextn(max(length(orig), length(delayed))*2)
 orig = c(orig, rep(0, nlength-length(orig)))
 delayed = c(delayed, rep(0, nlength-length(delayed)))
 
