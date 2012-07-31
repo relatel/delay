@@ -2,7 +2,7 @@
 
 Calculates delay in ms between 2 audio signals, where one typically
 is a transmitted version of the other, in which case the result is an estimate
-of the delay of the transmission channel
+of the delay of the transmission channel.
 
 # Installation
 
