@@ -4,7 +4,7 @@ xxx
 
 # Installation
 
-    xxx
+xxx
 
 ```R
 p<-2
