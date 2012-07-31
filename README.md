@@ -1,23 +1,21 @@
-# Name
+# adelay.R
 
-xxx
+Calculates delay in ms between 2 audio signals, where one typically
+is a transmitted version of the other, in which case the result is an estimate
+of the delay of the transmission channel
 
 # Installation
 
-xxx
+adelay.R requires R (which is free and open source).
 
-```R
-p<-2
-```
+R installation information: [http://cran.r-project.org/](http://cran.r-project.org/)
 
 # Usage
 
-xxx
-
 ```bash
-$ Rscript adelay.R file1 file2
+$ Rscript adelay.R <original.mp3> <delayed.mp3>
 ```
 
 # License
 
-`ruby-fogbugz` is released under the MIT license.
+`adelay.R` is released under the MIT license.
