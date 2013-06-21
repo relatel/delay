@@ -39,9 +39,9 @@ if(length(args) != 2) stop(paste("Usage: Rscript ", scriptname, " <original.mp3>
 oname = args[1]
 dname = args[2]
 
-# read 2 files - use readWave to import .WAV files instead
-origwav = readMP3(oname)
-delayedwav = readMP3(dname)
+# read 2 files - use readMP3 to import .MP3 files instead
+origwav = readWave(oname)
+delayedwav = readWave(dname)
 
 # Get samplingrate - assume delayed signal has same samplingrate
 sr = origwav@samp.rate
