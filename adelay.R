@@ -21,6 +21,7 @@
 # Calculates delay in ms between 2 audio signals, where one typically
 # is a transmitted version of the other, in which case the result is an estimate
 # of the delay of the transmission channel
+# Algorithm http://dsp.stackexchange.com/questions/736/how-do-i-implement-cross-correlation-to-prove-two-audio-files-are-similar
 
 # stop chatter
 sink("/dev/null")
