@@ -35,7 +35,7 @@ require(stats, quietly=TRUE)
 # Get file names from args
 args = commandArgs(trailingOnly=TRUE)
 scriptname = substring(commandArgs(trailingOnly=FALSE)[4], 8)
-if(length(args) != 2) stop(paste("Usage: Rscript ", scriptname, " <original.mp3> <delayed.mp3>\n", sep=""))
+if(length(args) != 2) stop(paste("Usage: Rscript ", scriptname, " <original.wav> <delayed.wav>\n", sep=""))
 oname = args[1]
 dname = args[2]
 
