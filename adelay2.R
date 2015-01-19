@@ -30,27 +30,20 @@ sink("/dev/null")
 #is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
 #if(!is.installed("tuneR")) install.packages("tuneR")
 #if(!is.installed("stats")) install.packages("stats")
-suppressPackageStartupMessages(require(tuneR, quietly=TRUE, warn.conflicts=FALSE))
-require(stats, quietly=TRUE, warn.conflicts=FALSE)
+require(tuneR, quietly=TRUE)
+require(stats, quietly=TRUE)
 
-# Get file names from args
-args = commandArgs(trailingOnly=TRUE)
-scriptname = substring(commandArgs(trailingOnly=FALSE)[4], 8)
-if(length(args) != 1) stop(paste("Usage: Rscript ", scriptname, " <filename.wav>\n", sep=""))
-oname = args[1]
 
 # read 2 files - use readMP3 to import .MP3 files instead
-
 origwav = readMP3(oname)
-
-
+delayedwav = readMP3(dname)
 
 # Get samplingrate - assume delayed signal has same samplingrate
 sr = origwav@samp.rate
 
 # Extract signal - assume mono with signal in left
-orig = origwav@right
-delayed = origwav@left
+orig = origwav@left
+delayed = delayedwav@left
 
 # Zero pad, at least half. nextn() selects "factor rich" length
 nlength = nextn(max(length(orig), length(delayed))*2)

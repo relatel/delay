@@ -21,36 +21,35 @@
 # Calculates delay in ms between 2 audio signals, where one typically
 # is a transmitted version of the other, in which case the result is an estimate
 # of the delay of the transmission channel
-# Algorithm http://dsp.stackexchange.com/questions/736/how-do-i-implement-cross-correlation-to-prove-two-audio-files-are-similar
 
 # stop chatter
 sink("/dev/null")
+options(repos='http://cran.us.r-project.org/')
 
 # make sure tuneR and stats are installed
-#is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
-#if(!is.installed("tuneR")) install.packages("tuneR")
-#if(!is.installed("stats")) install.packages("stats")
-suppressPackageStartupMessages(require(tuneR, quietly=TRUE, warn.conflicts=FALSE))
-require(stats, quietly=TRUE, warn.conflicts=FALSE)
+is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1]) 
+if(!is.installed("tuneR")) install.packages("tuneR")
+if(!is.installed("stats")) install.packages("stats")
+require(tuneR, quietly=TRUE)
+require(stats, quietly=TRUE)
 
 # Get file names from args
 args = commandArgs(trailingOnly=TRUE)
 scriptname = substring(commandArgs(trailingOnly=FALSE)[4], 8)
-if(length(args) != 1) stop(paste("Usage: Rscript ", scriptname, " <filename.wav>\n", sep=""))
+if(length(args) != 2) stop(paste("Usage: Rscript ", scriptname, " <original.mp3> <delayed.mp3>\n", sep=""))
 oname = args[1]
+dname = args[2]
 
-# read 2 files - use readMP3 to import .MP3 files instead
-
+# read 2 files - use readWave to import .WAV files instead
 origwav = readMP3(oname)
-
-
+delayedwav = readMP3(dname)
 
 # Get samplingrate - assume delayed signal has same samplingrate
 sr = origwav@samp.rate
 
 # Extract signal - assume mono with signal in left
-orig = origwav@right
-delayed = origwav@left
+orig = origwav@left
+delayed = delayedwav@left
 
 # Zero pad, at least half. nextn() selects "factor rich" length
 nlength = nextn(max(length(orig), length(delayed))*2)
