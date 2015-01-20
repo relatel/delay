@@ -51,10 +51,11 @@ sr = origwav@samp.rate
 orig = origwav@right
 delayed = origwav@left
 
-threshold = max(c(abs(orig), abs(delayed)))/5
+threshold_o = max(abs(orig))/5
+threshold_d = max(abs(delayed))/5
 
-o_start = min(which(abs(orig)>threshold))
-d_start = min(which(abs(delayed)>threshold))
+o_start = min(which(abs(orig)>threshold_o))
+d_start = min(which(abs(delayed)>threshold_d))
 
 delay = 1000 * (d_start - o_start)/sr
 
